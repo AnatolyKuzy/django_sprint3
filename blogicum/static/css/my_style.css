@@ -1,0 +1,4 @@
+/* Стили для активной вкладки */
+.nav-pills .nav-link.active, .nav-pills .show .nav-link {
+    color: white;
+  }
