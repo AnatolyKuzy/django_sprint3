@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 User = get_user_model()
 
@@ -22,12 +23,12 @@ class BaseModelBlog(models.Model):
 
 class Category(BaseModelBlog):
     title = models.CharField(
-        max_length=256,
+        max_length=settings.MAX_LENGTH,
         verbose_name='Заголовок'
     )
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
-        max_length=256,
+        max_length=settings.MAX_LENGTH,
         unique=True,
         verbose_name='Идентификатор',
         help_text=(
@@ -42,12 +43,12 @@ class Category(BaseModelBlog):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:20]
+        return self.title[:settings.CUT_TITLE]
 
 
 class Location(BaseModelBlog):
     name = models.CharField(
-        max_length=256,
+        max_length=settings.MAX_LENGTH,
         verbose_name='Название места'
     )
 
@@ -56,12 +57,12 @@ class Location(BaseModelBlog):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:20]
+        return self.name[:settings.CUT_TITLE]
 
 
 class Post(BaseModelBlog):
     title = models.CharField(
-        max_length=256,
+        max_length=settings.MAX_LENGTH,
         verbose_name='Заголовок'
     )
     text = models.TextField(verbose_name='Текст')
@@ -98,4 +99,4 @@ class Post(BaseModelBlog):
         ordering = ('-pub_date', )
 
     def __str__(self):
-        return self.title[:20]
+        return self.title[:settings.CUT_TITLE]

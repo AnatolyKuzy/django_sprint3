@@ -1,5 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+
 from .models import Post, Category, Location
+
+# Отменяем регистрацию модели Group в админке
+admin.site.unregister(Group)
 
 admin.site.register(Category)
 admin.site.register(Location)

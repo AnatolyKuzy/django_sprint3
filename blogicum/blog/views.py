@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Category
 from django.utils.timezone import now
+from django.conf import settings
+
+from .models import Post, Category
 
 
 def get_published_posts(request, **filters):
-    posts = Post.objects.select_related(
+    return Post.objects.select_related(
         'author', 'category', 'location',
     ).filter(
         category__is_published=True,
@@ -12,11 +14,10 @@ def get_published_posts(request, **filters):
         pub_date__lt=now(),
         **filters
     )
-    return posts
 
 
 def index(request):
-    posts = get_published_posts(request)[:5]
+    posts = get_published_posts(request)[:settings.NUMBER_OF_POSTS]
     return render(request, 'blog/index.html', context={'post_list': posts})
 
 
@@ -34,7 +35,7 @@ def category_posts(request, category_slug):
     )
     posts = get_published_posts(
         request, category=category
-    ).order_by('-pub_date')
+    )
     return render(
         request,
         'blog/category.html',
